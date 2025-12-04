@@ -1,0 +1,57 @@
+import { BASE_URL } from '@env';
+
+export const API = {
+  auth: {
+    login: 'api/user/login',
+    signup: 'api/user/signup',
+    newEmailVerify: 'api/user/resent/emailverify',
+    newEmailVerityOTP: 'api/user/email/verify',
+    forgotPassword: 'api/user/forgotpassword',
+    verifyOTP: 'api/user/validateotp',
+    resetPassword: 'api/user/resetpassword',
+    logout: 'api/user/logout',
+    updateCategory: 'api/user/personalized/category/update',
+    refreshToken: 'api/user/refreshtoken',
+    socialSignIn: '/api/user/social/signin',
+  },
+  user: {
+    profile: 'api/user/profile',
+    editProfile: 'api/user/edit/profile',
+    changePassword: 'api/user/changepassword',
+    deleteAccount: 'api/user/delete',
+  },
+  cms: {
+    termsAndConditions: 'api/cms/details/terms-policies',
+    privacyPolicy: 'api/cms/details/privacy-policy',
+  },
+  settings: {
+    update: 'api/user/settings/update',
+    notification: '/api/user/notification/listing',
+  },
+  category: {
+    listing: 'api/category/listing',
+    keywords: 'api/category/keyword/listing',
+  },
+  listing: {
+    dealListing: 'api/deal/listing/user',
+    newDealListing: 'api/deal/listing',
+    dealDetails: 'api/deal/get/',
+    dealLike: 'api/deal/like',
+    dealFavorite: 'api/deal/favorite',
+    dealFavoriteList: 'api/deal/favorite/list',
+    addDeal: 'api/deal/add',
+    postedDeals: 'api/deal/listing/user/created',
+    updateDeal: 'api/deal/update',
+    deleteDeal: 'api/deal/delete',
+    addBank: 'api/bank/account/add',
+    banklist: 'api/bank/account/details',
+    jsonListing: 'api/deal/get/json',
+  },
+};
+
+export const IMAGES_BUCKET_URL = {
+  profile: `${BASE_URL}/uploads/users/`,
+  category: `${BASE_URL}/uploads/category`,
+  brand: `${BASE_URL}/uploads/`,
+  deals: `${BASE_URL}/uploads/DealImages/`,
+};
