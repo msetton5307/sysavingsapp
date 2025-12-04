@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
@@ -80,3 +81,6 @@ To learn more about React Native, take a look at the following resources:
 
 email: "test1@yopmail.com",
 password: "Test@1234"
+=======
+# sysavingsapp
+>>>>>>> f8dcd2b6bfafadda28d1ecca4dc2e115de711c43
