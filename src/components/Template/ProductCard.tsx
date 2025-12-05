@@ -391,177 +391,173 @@ const ProductCard = ({
         )}
       </TouchableOpacity>
 
-        <Modal style={styles.modalStyle} visible={isVisible} transparent>
-          <View style={styles.modalInnerContainer}>
-            <SafeAreaView style={styles.safeareaStyle}>
-              <View style={styles.modalVisibleContainer}>
-                <TouchableOpacity
-                  style={styles.crossiconContainer}
-                  onPress={() => setIsVisible(false)}>
-                  <Image style={Css.icon20} source={Icons.cross} />
-                </TouchableOpacity>
-                <View style={styles.modalContentWrapper}>
-                  <ScrollView
-                    style={Css.w100}
-                    contentContainerStyle={[Css.w100, Css.g10, styles.modalScrollContent]}
-                    showsVerticalScrollIndicator={false}>
-                    <View style={styles.productDeatilsLogoContainer}>
-                      {productDetails?.brand_logo && (
-                        <Image
-                          source={{
-                            uri: productDetails?.brand_logo,
-                          }}
-                          style={[styles.logoStyle, Css.mt0]}
-                          resizeMode="contain"
-                        />
-                      )}
+      <Modal style={styles.modalStyle} visible={isVisible} transparent>
+        <View style={styles.modalInnerContainer}>
+          <SafeAreaView style={styles.safeareaStyle}>
+            <View style={styles.modalVisibleContainer}>
+              <TouchableOpacity
+                style={styles.crossiconContainer}
+                onPress={() => setIsVisible(false)}>
+                <Image style={Css.icon20} source={Icons.cross} />
+              </TouchableOpacity>
+              <ScrollView
+                style={[Css.w100, styles.modalScroll]}
+                contentContainerStyle={[Css.w100, Css.g10, styles.modalScrollContent]}
+                showsVerticalScrollIndicator={false}>
+                <View style={styles.productDeatilsLogoContainer}>
+                  {productDetails?.brand_logo && (
+                    <Image
+                      source={{
+                        uri: productDetails?.brand_logo,
+                      }}
+                      style={[styles.logoStyle, Css.mt0]}
+                      resizeMode="contain"
+                    />
+                  )}
 
-                      {details?.company_name && (
-                        <Text
-                          style={{
-                            fontFamily: Fonts.PoppinsMedium,
-                            color: Colors.black_olive,
-                            fontSize: 12,
-                          }}>
-                          {details?.company_name}
-                        </Text>
-                      )}
-                    </View>
-                    <View style={styles.productHeroContainer}>
-                      {productDetails?.discount && (
-                        <View style={styles.productDiscountBadge}>
-                          <Text style={styles.productDiscountText}>
-                            {productDetails?.discount}% Off
-                          </Text>
-                        </View>
-                      )}
-                      <Image
-                        source={
-                          productDetails?.image
-                            ? {
-                                uri: productDetails?.image,
-                              }
-                            : Images.no_pictures
-                        }
-                        style={[styles.productDetailsImg]}
-                        resizeMode="contain"
-                        tintColor={
-                          productDetails?.image ? undefined : Colors.gray_1
-                        }
-                      />
-                    </View>
-                    <View style={[styles.rowContainer, styles.namePriceContainer]}>
-                      {productDetails?.title && (
-                        <Text style={styles.productDetailsProductNameText}>
-                          {productDetails?.title}
-                        </Text>
-                      )}
-                      {productDetails.discounted_price ||
-                      productDetails?.deal_price ? (
-                        <View style={[styles.dealsPriceContainer]}>
-                          <Text style={styles.detailsActualPrice}>
-                            {productDetails?.discounted_price}
-                          </Text>
-                          <Text style={styles.detailsOfferPrice}>
-                            {`${productDetails?.deal_price}`}
-                          </Text>
-                        </View>
-                      ) : null}
-                    </View>
-                    <View style={[styles.rowContainer, styles.descriptionContainer]}>
-                      <Text style={styles.detailsDescLabel}>Description</Text>
-                      <Text style={styles.detailsDescValue}>
-                        {productDetails?.description?.trim()?.length
-                          ? productDetails?.description
-                          : 'Description coming soon.'}
+                  {details?.company_name && (
+                    <Text
+                      style={{
+                        fontFamily: Fonts.PoppinsMedium,
+                        color: Colors.black_olive,
+                        fontSize: 12,
+                      }}>
+                      {details?.company_name}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.productHeroContainer}>
+                  {productDetails?.discount && (
+                    <View style={styles.productDiscountBadge}>
+                      <Text style={styles.productDiscountText}>
+                        {productDetails?.discount}% Off
                       </Text>
                     </View>
-                    <View style={[Css.w100, !productDetails?.isJson && Css.mt20]}>
-                      <View style={[Css.fdr, Css.jcc, Css.aic, Css.g2]}>
-                        {!productDetails.isJson && (
-                          <>
-                            <TouchableOpacity
-                              onPress={() =>
-                                handleLikeDislike(
-                                  productDetails._id,
-                                  'like',
-                                  productDetails.isLike,
-                                )
-                              }
-                              style={Css.iconContainer32}>
-                              <Image
-                                style={Css.icon32}
-                                source={
-                                  productDetails?.isLike
-                                    ? Icons.active_like
-                                    : Icons.inactive_like
-                                }
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              onPress={() =>
-                                handleLikeDislike(
-                                  productDetails?._id,
-                                  'dislike',
-                                  productDetails?.isDislike,
-                                )
-                              }
-                              style={Css.iconContainer32}>
-                              <Image
-                                style={Css.icon32}
-                                source={
-                                  productDetails?.isDislike
-                                    ? Icons.active_dislike
-                                    : Icons.inactive_dislike
-                                }
-                              />
-                            </TouchableOpacity>
-                          </>
-                        )}
-
-                        <TouchableOpacity
-                          onPress={() => {
-                            share(productDetails);
-                          }}
-                          style={Css.iconContainer32}>
-                          <Image style={Css.icon32} source={Icons.active_share} />
-                        </TouchableOpacity>
-                        {/* <TouchableOpacity style={Css.iconContainer32}>
-                          <Image style={Css.icon32} source={Icons.active_save} />
-                        </TouchableOpacity> */}
+                  )}
+                  <Image
+                    source={
+                      productDetails?.image
+                        ? {
+                            uri: productDetails?.image,
+                          }
+                        : Images.no_pictures
+                    }
+                    style={[styles.productDetailsImg]}
+                    resizeMode="contain"
+                    tintColor={
+                      productDetails?.image ? undefined : Colors.gray_1
+                    }
+                  />
+                </View>
+                <View style={[styles.rowContainer, styles.namePriceContainer]}>
+                  {productDetails?.title && (
+                    <Text style={styles.productDetailsProductNameText}>
+                      {productDetails?.title}
+                    </Text>
+                  )}
+                  {productDetails.discounted_price || productDetails?.deal_price ? (
+                    <View style={[styles.dealsPriceContainer]}>
+                      <Text style={styles.detailsActualPrice}>
+                        {productDetails?.discounted_price}
+                      </Text>
+                      <Text style={styles.detailsOfferPrice}>
+                        {`${productDetails?.deal_price}`}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+                <View style={[styles.rowContainer, styles.descriptionContainer]}>
+                  <Text style={styles.detailsDescLabel}>Description</Text>
+                  <Text style={styles.detailsDescValue}>
+                    {productDetails?.description?.trim()?.length
+                      ? productDetails?.description
+                      : 'Description coming soon.'}
+                  </Text>
+                </View>
+                <View style={[Css.w100, !productDetails?.isJson && Css.mt20]}>
+                  <View style={[Css.fdr, Css.jcc, Css.aic, Css.g2]}>
+                    {!productDetails.isJson && (
+                      <>
                         <TouchableOpacity
                           onPress={() =>
-                            copyToClipboard(productDetails?.product_link)
+                            handleLikeDislike(
+                              productDetails._id,
+                              'like',
+                              productDetails.isLike,
+                            )
                           }
                           style={Css.iconContainer32}>
                           <Image
                             style={Css.icon32}
-                            source={Icons.inactive_link} // active_link
+                            source={
+                              productDetails?.isLike
+                                ? Icons.active_like
+                                : Icons.inactive_like
+                            }
                           />
                         </TouchableOpacity>
-                        {!jsonData && (
-                          <TouchableOpacity
-                            onPress={() => {
-                              handleFavourite(
-                                productDetails?._id,
-                                productDetails?.isFavourite,
-                              );
-                              onUnFavorite();
-                            }}
-                            style={Css.iconContainer32}>
-                            <Image
-                              style={Css.icon32}
-                              source={
-                                productDetails?.isFavourite
-                                  ? Icons.active_favourite
-                                  : Icons.inactive_favourite
-                              }
-                            />
-                          </TouchableOpacity>
-                        )}
-                      </View>
-                      <View style={Css.mb20} />
-                      {/* {!productDetails?.isJson && (
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleLikeDislike(
+                              productDetails?._id,
+                              'dislike',
+                              productDetails?.isDislike,
+                            )
+                          }
+                          style={Css.iconContainer32}>
+                          <Image
+                            style={Css.icon32}
+                            source={
+                              productDetails?.isDislike
+                                ? Icons.active_dislike
+                                : Icons.inactive_dislike
+                            }
+                          />
+                        </TouchableOpacity>
+                      </>
+                    )}
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        share(productDetails);
+                      }}
+                      style={Css.iconContainer32}>
+                      <Image style={Css.icon32} source={Icons.active_share} />
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity style={Css.iconContainer32}>
+                          <Image style={Css.icon32} source={Icons.active_save} />
+                        </TouchableOpacity> */}
+                    <TouchableOpacity
+                      onPress={() => copyToClipboard(productDetails?.product_link)}
+                      style={Css.iconContainer32}>
+                      <Image
+                        style={Css.icon32}
+                        source={Icons.inactive_link} // active_link
+                      />
+                    </TouchableOpacity>
+                    {!jsonData && (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleFavourite(
+                            productDetails?._id,
+                            productDetails?.isFavourite,
+                          );
+                          onUnFavorite();
+                        }}
+                        style={Css.iconContainer32}>
+                        <Image
+                          style={Css.icon32}
+                          source={
+                            productDetails?.isFavourite
+                              ? Icons.active_favourite
+                              : Icons.inactive_favourite
+                          }
+                        />
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                  <View style={Css.mb20} />
+                  {/* {!productDetails?.isJson && (
                         <CustomButtonOutline
                           label="Expired"
                           onPress={() => {}}
@@ -569,18 +565,17 @@ const ProductCard = ({
                           containerStyle={Css.w100}
                         />
                       )} */}
-                    </View>
-                  </ScrollView>
-                  <CustomButtonSolid
-                    label="See Deal"
-                    onPress={() => openLink(productDetails?.product_link)}
-                    containerStyle={[Css.w100, Css.mt5]}
-                  />
                 </View>
-              </View>
-            </SafeAreaView>
-          </View>
-        </Modal>
+              </ScrollView>
+              <CustomButtonSolid
+                label="See Deal"
+                onPress={() => openLink(productDetails?.product_link)}
+                containerStyle={[Css.w100, Css.mt5]}
+              />
+            </View>
+          </SafeAreaView>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -712,6 +707,9 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(40),
     zIndex: 10,
   },
+  modalScroll: {
+    flex: 1,
+  },
   rowContainer: {
     width: '100%',
     padding: moderateScale(15),
@@ -840,10 +838,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.PoppinsSemiBold,
     fontSize: moderateScale(14),
     color: Colors.Aztec_Gold,
-  },
-  modalContentWrapper: {
-    flex: 1,
-    gap: moderateScale(10),
   },
   modalScrollContent: {
     paddingBottom: moderateScale(10),
