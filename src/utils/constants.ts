@@ -46,6 +46,7 @@ export const API = {
     addBank: 'api/bank/account/add',
     banklist: 'api/bank/account/details',
     jsonListing: 'api/deal/get/json',
+    mergeJsonDeals: 'api/mergeJSON/paginated',
   },
 };
 

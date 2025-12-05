@@ -18,7 +18,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {useAppDispatch} from '@app/redux';
 import {
   getAllDealListingMobile,
-  getAllJsonDealListing,
+  getMergedJsonDeals,
   getUserDetails,
 } from '@app/utils/service/UserService';
 
@@ -121,12 +121,11 @@ const Home = () => {
           setHasMoreData(false);
         }
       } else if (tabIndex === 1) {
-        // New Deals tab - JSON data
+        // New Deals tab - JSON data via paginated merge endpoint
         result = await dispatch(
-          getAllJsonDealListing({
-            limit: 6,
+          getMergedJsonDeals({
             page: _page,
-            search: searchQuery,
+            pageSize: 50,
           }),
         );
 
@@ -142,7 +141,7 @@ const Home = () => {
             }
 
             // Check if we have less data than requested (indicating end of data)
-            if (result.data.length < 6) {
+            if (result.data.length < 50) {
               setHasMoreData(false);
             }
           }
