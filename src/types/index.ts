@@ -21,7 +21,6 @@ export type RootTabParamList = {
   Home: undefined;
   Categories: undefined;
   Deals: undefined;
-  PostDeal: undefined;
   Setting: undefined;
 };
 
