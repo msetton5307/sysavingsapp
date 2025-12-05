@@ -16,11 +16,7 @@ import Css from '../../../themes/Css';
 import ProductCard from '../../../components/Template/ProductCard';
 import {useIsFocused} from '@react-navigation/native';
 import {useAppDispatch} from '@app/redux';
-import {
-  getAllDealListingMobile,
-  getMergedJsonDeals,
-  getUserDetails,
-} from '@app/utils/service/UserService';
+import {getMergedJsonDeals, getUserDetails} from '@app/utils/service/UserService';
 
 const Home = () => {
   const isFocused = useIsFocused();
@@ -83,45 +79,8 @@ const Home = () => {
     try {
       let result: any;
 
-      if (tabIndex === 0) {
-        // Deals tab - Mobile data
-        result = await dispatch(
-          getAllDealListingMobile({
-            length: 10,
-            page: _page,
-            search: searchQuery,
-          }),
-        );
-
-        console.log('getAllDealListingMobile -- ', result);
-
-        if (result.success) {
-          if (_.isEmpty(result.data)) {
-            setHasMoreData(false);
-            if (_page === 1) {
-              setDealsList([]);
-            }
-          } else {
-            if (_page === 1) {
-              setDealsList(result.data);
-            } else {
-              setDealsList(prev => [...prev, ...result.data]);
-            }
-
-            // Check if we have less data than requested (indicating end of data)
-            if (result.data.length < 10) {
-              setHasMoreData(false);
-            }
-          }
-        } else {
-          console.log('Mobile deals API failed:', result);
-          if (_page === 1) {
-            setDealsList([]);
-          }
-          setHasMoreData(false);
-        }
-      } else if (tabIndex === 1) {
-        // New Deals tab - JSON data via paginated merge endpoint
+      if (tabIndex === 0 || tabIndex === 1) {
+        // Both tabs now use the paginated merge endpoint
         result = await dispatch(
           getMergedJsonDeals({
             page: _page,
