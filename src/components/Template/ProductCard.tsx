@@ -307,67 +307,63 @@ const ProductCard = ({
         disabled={!enableModal}
         style={styles.mainContainer}
         onPress={() => getProductDetails(item)}>
+        {details?.discount && (
+          <View style={styles.discountBadge}>
+            <Text style={styles.discountBadgeText}>{`${details?.discount}% OFF`}</Text>
+          </View>
+        )}
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          {details?.brand_logo && (
-            <Image
-              source={{uri: details?.brand_logo}}
-              style={styles.logoStyle}
-              resizeMode="contain"
-            />
-          )}
-
-          {details?.company_name && (
-            <View
-              style={{
-                backgroundColor: Colors.Linen,
-                paddingHorizontal: 10,
-                paddingVertical: 2,
-                borderRadius: 30,
-              }}>
-              <Text
-                style={{
-                  fontFamily: Fonts.PoppinsMedium,
-                  color: Colors.black_olive,
-                  fontSize: 10,
-                }}>
-                {details?.company_name}
-              </Text>
-            </View>
-          )}
-          {isShowFavorite && (
-            <TouchableOpacity
-              onPress={() => {
-                handleFavourite(
-                  productDetails?._id,
-                  productDetails?.isFavourite,
-                );
-                onUnFavorite();
-              }}
-              style={styles.favorite}>
+          style={styles.cardHeader}>
+          <View style={styles.brandSection}>
+            {details?.brand_logo ? (
               <Image
-                source={Icons.favorite}
-                style={styles.favoriteImg}
+                source={{uri: details?.brand_logo}}
+                style={styles.logoStyle}
                 resizeMode="contain"
               />
-            </TouchableOpacity>
-          )}
+            ) : null}
 
-          {isStatus && <Text style={styles.pending}>{isStatus}</Text>}
+            {details?.company_name && (
+              <View style={styles.companyChip}>
+                <Text style={styles.companyChipText}>{details?.company_name}</Text>
+              </View>
+            )}
+          </View>
+
+          <View style={styles.headerActions}>
+            {isStatus ? (
+              <Text style={styles.statusPill}>{isStatus}</Text>
+            ) : null}
+            {isShowFavorite && (
+              <TouchableOpacity
+                onPress={() => {
+                  handleFavourite(
+                    productDetails?._id,
+                    productDetails?.isFavourite,
+                  );
+                  onUnFavorite();
+                }}
+                style={styles.favorite}>
+                <Image
+                  source={Icons.favorite}
+                  style={styles.favoriteImg}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
 
-        <Image
-          source={
-            details?.images ? {uri: `${details?.images}`} : Images.no_pictures
-          }
-          style={styles.productImg}
-          tintColor={details?.images ? undefined : Colors.gray_1}
-          resizeMode="contain"
-        />
+        <View style={styles.imageContainer}>
+          <Image
+            source={
+              details?.images ? {uri: `${details?.images}`} : Images.no_pictures
+            }
+            style={styles.productImg}
+            tintColor={details?.images ? undefined : Colors.gray_1}
+            resizeMode="contain"
+          />
+        </View>
 
         {details?.title && (
           <Text
@@ -378,21 +374,23 @@ const ProductCard = ({
           </Text>
         )}
 
-        {details?.discount && (
-          <View style={styles.offView}>
-            <Text style={styles.offText}>{`${details?.discount}% off`}</Text>
+        <View style={styles.priceRow}>
+          <View style={styles.priceBlock}>
+            {details?.discounted_price && (
+              <Text style={styles.actualPrice}>
+                {Number.isNaN(details?.discounted_price)
+                  ? parseFloat(details?.discounted_price)?.toFixed(2)
+                  : details?.discounted_price}
+              </Text>
+            )}
+            {details?.price && (
+              <Text style={styles.offerPrice}>{details?.price}</Text>
+            )}
           </View>
-        )}
-        <View style={styles.priceView}>
-          {details?.discounted_price && (
-            <Text style={styles.actualPrice}>
-              {Number.isNaN(details?.discounted_price)
-                ? parseFloat(details?.discounted_price)?.toFixed(2)
-                : details?.discounted_price}
-            </Text>
-          )}
-          {details?.price && (
-            <Text style={styles.offerPrice}>{details?.price}</Text>
+          {details?.discount && (
+            <View style={styles.savingsPill}>
+              <Text style={styles.offText}>{`${details?.discount}% off`}</Text>
+            </View>
           )}
         </View>
         {editable && (
@@ -594,28 +592,33 @@ const ProductCard = ({
 const styles = StyleSheet.create({
   mainContainer: {
     width: '47%',
-    borderWidth: 1,
-    padding: moderateScale(10),
-    borderRadius: moderateScale(10),
-    borderColor: Colors.Desert_Sand,
+    padding: moderateScale(12),
+    borderRadius: moderateScale(14),
     marginTop: moderateScale(20),
     gap: moderateScale(10),
+    backgroundColor: Colors.white,
+    shadowColor: '#1F2937',
+    shadowOpacity: 0.12,
+    shadowOffset: {width: 0, height: 8},
+    shadowRadius: 20,
+    elevation: 6,
+    position: 'relative',
   },
   offerPrice: {
     color: Colors.Amaranth_Red,
     fontFamily: Fonts.PoppinsSemiBold,
     fontSize: moderateScale(15),
-    marginLeft: moderateScale(10),
+    marginLeft: 0,
     textDecorationLine: 'line-through',
     flexShrink: 1,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   actualPrice: {
     color: Colors.green,
     fontFamily: Fonts.PoppinsSemiBold,
     fontSize: moderateScale(15),
     flexShrink: 1,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   priceView: {
     flexDirection: 'row',
@@ -624,28 +627,21 @@ const styles = StyleSheet.create({
   },
   productNameText: {
     color: Colors.black,
-    fontFamily: Fonts.PoppinsMedium,
-    fontSize: moderateScale(12),
-    width: '70%',
+    fontFamily: Fonts.PoppinsSemiBold,
+    fontSize: moderateScale(13),
+    width: '100%',
     textAlign: 'center',
     alignSelf: 'center',
+    lineHeight: moderateScale(18),
   },
   offText: {
     color: Colors.white,
     fontFamily: Fonts.PoppinsMedium,
     fontSize: moderateScale(11),
   },
-  offView: {
-    width: '50%',
-    backgroundColor: Colors.Amaranth_Red,
-    borderRadius: moderateScale(5),
-    alignSelf: 'center',
-    alignItems: 'center',
-    padding: moderateScale(5),
-  },
   productImg: {
-    height: moderateScale(97),
-    width: moderateScale(79),
+    height: moderateScale(110),
+    width: moderateScale(90),
     alignSelf: 'center',
   },
   productDetailsImg: {
@@ -853,6 +849,80 @@ const styles = StyleSheet.create({
   },
   modalScrollContent: {
     paddingBottom: moderateScale(10),
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  brandSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: moderateScale(6),
+    flex: 1,
+  },
+  companyChip: {
+    backgroundColor: Colors.Linen,
+    paddingHorizontal: moderateScale(10),
+    paddingVertical: moderateScale(4),
+    borderRadius: moderateScale(20),
+  },
+  companyChipText: {
+    fontFamily: Fonts.PoppinsMedium,
+    color: Colors.black_olive,
+    fontSize: moderateScale(10),
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: moderateScale(6),
+  },
+  statusPill: {
+    color: Colors.Aztec_Gold,
+    fontSize: moderateScale(11),
+    fontFamily: Fonts.PoppinsSemiBold,
+    backgroundColor: Colors.Cornsilk,
+    paddingHorizontal: moderateScale(8),
+    paddingVertical: moderateScale(4),
+    borderRadius: moderateScale(12),
+  },
+  discountBadge: {
+    position: 'absolute',
+    top: moderateScale(12),
+    left: moderateScale(12),
+    backgroundColor: Colors.Amaranth_Red,
+    paddingHorizontal: moderateScale(10),
+    paddingVertical: moderateScale(4),
+    borderRadius: moderateScale(20),
+    zIndex: 2,
+  },
+  discountBadgeText: {
+    color: Colors.white,
+    fontFamily: Fonts.PoppinsSemiBold,
+    fontSize: moderateScale(10),
+  },
+  imageContainer: {
+    backgroundColor: Colors.Seashell,
+    borderRadius: moderateScale(12),
+    paddingVertical: moderateScale(18),
+    marginTop: moderateScale(6),
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  priceBlock: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: moderateScale(6),
+  },
+  savingsPill: {
+    backgroundColor: Colors.Amaranth_Red,
+    paddingHorizontal: moderateScale(10),
+    paddingVertical: moderateScale(6),
+    borderRadius: moderateScale(16),
   },
 });
 
