@@ -67,6 +67,7 @@ type ViewProductDetails = {
   discounted_price: string;
   deal_price: string;
   description: string;
+  discount: string;
   isLike: boolean;
   isDislike: boolean;
   product_link: string;
@@ -146,6 +147,7 @@ const ProductCard = ({
     discounted_price: '',
     deal_price: '',
     description: '',
+    discount: '',
     isLike: false,
     isDislike: false,
     product_link: '',
@@ -162,6 +164,7 @@ const ProductCard = ({
           deal_price: item?.Price2 || '',
           description: '',
           discounted_price: item?.Price1 || '',
+          discount: item?.Off || '',
           image: item?.Image ? item?.Image : '',
           isDislike: false,
           isFavourite: false,
@@ -190,6 +193,7 @@ const ProductCard = ({
                 : '',
               deal_price: item?.deal_price ? `$${item?.deal_price}` : '',
               description: result.data?.description,
+              discount: item?.discount || result.data?.discount || '',
               discounted_price: item?.discounted_price
                 ? `$${item?.discounted_price}`
                 : '',
@@ -420,22 +424,30 @@ const ProductCard = ({
                       </Text>
                     )}
                   </View>
-                  <Image
-                    source={
-                      productDetails?.image
-                        ? {
-                            uri: productDetails?.image,
-                          }
-                        : Images.no_pictures
-                    }
-                    style={[styles.productDetailsImg]}
-                    resizeMode="contain"
-                    tintColor={
-                      productDetails?.image ? undefined : Colors.gray_1
-                    }
-                  />
-                  <View
-                    style={[styles.rowContainer, styles.namePriceContainer]}>
+                  <View style={styles.productHeroContainer}>
+                    {productDetails?.discount && (
+                      <View style={styles.productDiscountBadge}>
+                        <Text style={styles.productDiscountText}>
+                          {productDetails?.discount}% Off
+                        </Text>
+                      </View>
+                    )}
+                    <Image
+                      source={
+                        productDetails?.image
+                          ? {
+                              uri: productDetails?.image,
+                            }
+                          : Images.no_pictures
+                      }
+                      style={[styles.productDetailsImg]}
+                      resizeMode="contain"
+                      tintColor={
+                        productDetails?.image ? undefined : Colors.gray_1
+                      }
+                    />
+                  </View>
+                  <View style={[styles.rowContainer, styles.namePriceContainer]}>
                     {productDetails?.title && (
                       <Text style={styles.productDetailsProductNameText}>
                         {productDetails?.title}
@@ -453,16 +465,14 @@ const ProductCard = ({
                       </View>
                     ) : null}
                   </View>
-                  {productDetails?.description && (
-                    <View style={styles.rowContainer}>
-                      <Text style={styles.detailsDescValue}>
-                        <Text style={styles.detailsDescLabel}>
-                          Description:{' '}
-                        </Text>
-                        {productDetails?.description}
-                      </Text>
-                    </View>
-                  )}
+                  <View style={[styles.rowContainer, styles.descriptionContainer]}>
+                    <Text style={styles.detailsDescLabel}>Description</Text>
+                    <Text style={styles.detailsDescValue}>
+                      {productDetails?.description?.trim()?.length
+                        ? productDetails?.description
+                        : 'Description coming soon.'}
+                    </Text>
+                  </View>
                   <View style={[Css.w100, !productDetails?.isJson && Css.mt20]}>
                     <View style={[Css.fdr, Css.jcc, Css.aic, Css.g2]}>
                       {!productDetails.isJson && (
@@ -714,6 +724,29 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: Colors.white,
   },
+  productHeroContainer: {
+    width: '100%',
+    backgroundColor: Colors.Cornsilk,
+    borderRadius: moderateScale(15),
+    padding: moderateScale(20),
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  productDiscountBadge: {
+    position: 'absolute',
+    top: moderateScale(10),
+    left: moderateScale(10),
+    backgroundColor: Colors.Amaranth_Red,
+    paddingHorizontal: moderateScale(10),
+    paddingVertical: moderateScale(5),
+    borderRadius: moderateScale(20),
+  },
+  productDiscountText: {
+    color: Colors.white,
+    fontFamily: Fonts.PoppinsMedium,
+    fontSize: moderateScale(11),
+  },
   productDeatilsLogoContainer: {
     borderRadius: moderateScale(50),
     maxWidth: horizontalScale(230),
@@ -775,6 +808,12 @@ const styles = StyleSheet.create({
     color: Colors.black_olive,
     fontFamily: Fonts.PoppinsRegular,
     fontSize: moderateScale(12),
+    lineHeight: moderateScale(18),
+  },
+  descriptionContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: moderateScale(6),
   },
   editIcon: {
     width: moderateScale(13.5),
