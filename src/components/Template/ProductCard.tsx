@@ -726,7 +726,7 @@ const styles = StyleSheet.create({
   },
   productHeroContainer: {
     width: '100%',
-    backgroundColor: Colors.Cornsilk,
+    backgroundColor: Colors.white,
     borderRadius: moderateScale(15),
     padding: moderateScale(20),
     alignItems: 'center',
