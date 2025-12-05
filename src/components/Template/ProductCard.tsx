@@ -400,11 +400,14 @@ const ProductCard = ({
                 onPress={() => setIsVisible(false)}>
                 <Image style={Css.icon20} source={Icons.cross} />
               </TouchableOpacity>
-              <ScrollView style={Css.w100} showsVerticalScrollIndicator={false}>
-                <View style={[Css.w100, Css.g10]}>
-                  <View style={styles.productDeatilsLogoContainer}>
-                    {productDetails?.brand_logo && (
-                      <Image
+          <View style={styles.modalContentWrapper}>
+            <ScrollView
+              style={Css.w100}
+              contentContainerStyle={[Css.w100, Css.g10, styles.modalScrollContent]}
+              showsVerticalScrollIndicator={false}>
+              <View style={styles.productDeatilsLogoContainer}>
+                {productDetails?.brand_logo && (
+                  <Image
                         source={{
                           uri: productDetails?.brand_logo,
                         }}
@@ -557,11 +560,7 @@ const ProductCard = ({
                         </TouchableOpacity>
                       )}
                     </View>
-                    <CustomButtonSolid
-                      label="See Deal"
-                      onPress={() => openLink(productDetails?.product_link)}
-                      containerStyle={[Css.w100, Css.mt5]}
-                    />
+                    <View style={Css.mb20} />
                     {/* {!productDetails?.isJson && (
                       <CustomButtonOutline
                         label="Expired"
@@ -573,9 +572,15 @@ const ProductCard = ({
                   </View>
                 </View>
               </ScrollView>
+              <CustomButtonSolid
+                label="See Deal"
+                onPress={() => openLink(productDetails?.product_link)}
+                containerStyle={[Css.w100, Css.mt5]}
+              />
             </View>
-          </SafeAreaView>
-        </View>
+          </View>
+        </SafeAreaView>
+      </View>
       </Modal>
     </>
   );
@@ -766,7 +771,7 @@ const styles = StyleSheet.create({
   productDetailsProductNameText: {
     color: Colors.black,
     fontFamily: Fonts.PoppinsSemiBold,
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(14),
     alignSelf: 'center',
     textAlign: 'center',
   },
@@ -836,6 +841,13 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.PoppinsSemiBold,
     fontSize: moderateScale(14),
     color: Colors.Aztec_Gold,
+  },
+  modalContentWrapper: {
+    flex: 1,
+    gap: moderateScale(10),
+  },
+  modalScrollContent: {
+    paddingBottom: moderateScale(10),
   },
 });
 
