@@ -26,7 +26,6 @@ import TextInput from '@app/components/TextInput';
 import CustomSelectionDropdown from '@app/components/CustomSelectionDropdown';
 import UploadImage from '@app/components/Template/UploadImage';
 import {showMessage} from '@app/utils/helper/Toast';
-import {CustomButtonSolid} from '@app/components/CustomButton';
 import {navigate} from '@app/utils/helper/RootNaivgation';
 import Loader from '@app/utils/helper/Loader';
 import {getCategoryListing} from '@app/utils/service/AuthService';
@@ -79,6 +78,18 @@ const PostDeal = () => {
     setFormData(prev => ({...prev, [field]: value}));
   };
 
+  const sortDealsByNewest = useCallback((deals: any[]) => {
+    return [...deals].sort((a, b) => {
+      const createdA = new Date(
+        a?.createdAt || a?.created_at || a?.updatedAt || a?.updated_at || 0,
+      ).getTime();
+      const createdB = new Date(
+        b?.createdAt || b?.created_at || b?.updatedAt || b?.updated_at || 0,
+      ).getTime();
+      return createdB - createdA;
+    });
+  }, []);
+
   const getCategory = useCallback(async () => {
     try {
       const result = await dispatch(
@@ -128,9 +139,11 @@ const PostDeal = () => {
             setDealsList([]);
           }
         } else if (_page === 1) {
-          setDealsList(result.data);
+          setDealsList(sortDealsByNewest(result.data));
         } else {
-          setDealsList(prev => [...prev, ...result.data]);
+          setDealsList(prev =>
+            sortDealsByNewest([...prev, ...sortDealsByNewest(result.data)]),
+          );
         }
       }
     } catch (error) {
@@ -374,11 +387,6 @@ const PostDeal = () => {
           dropdownList={brandList}
           dropdownTitle={'Select Brand'}
           selectedValue={selectedBrandName}
-        />
-        <CustomButtonSolid
-          label="Post Deal"
-          onPress={() => handleSubmit()}
-          containerStyle={Css.w100}
         />
 
         {/* MY DEALS */}
