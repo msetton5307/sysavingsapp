@@ -244,7 +244,14 @@ const getMergedJsonDeals = (payload: MERGE_JSON_LISTING_TYPE) => {
       );
 
       const { status, data } = result;
-      const dealsData = data?.data?.data ?? data?.data ?? [];
+
+      const dealsData = Array.isArray(data?.data?.data)
+        ? data.data.data
+        : Array.isArray(data?.data)
+        ? data.data
+        : Array.isArray(data)
+        ? data
+        : data?.data?.data ?? data?.data ?? [];
 
       return {
         success: status === 200,
