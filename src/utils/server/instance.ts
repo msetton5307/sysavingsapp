@@ -7,7 +7,7 @@ import { showMessage } from '../helper/Toast';
 import { store } from '@app/redux';
 import { logout } from '../service/AuthService';
 
-let baseURL = 'http://192.168.5.237:1844';
+const baseURL = BASE_URL || 'http://192.168.5.237:1844';
 
 export const instance = axios.create({
   baseURL: BASE_URL,
