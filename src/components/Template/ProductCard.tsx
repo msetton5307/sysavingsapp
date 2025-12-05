@@ -286,6 +286,21 @@ const ProductCard = ({
     }
   };
 
+  const modalTitle = productDetails?.title || details?.title;
+  const modalDiscount = productDetails?.discount || details?.discount;
+  const modalDiscountedPrice =
+    productDetails?.discounted_price || details?.discounted_price;
+  const modalDealPrice = productDetails?.deal_price || details?.price;
+  const modalDescription =
+    productDetails?.description?.trim()?.length
+      ? productDetails?.description
+      : details?.description?.trim()?.length
+        ? details?.description
+        : 'Description coming soon.';
+  const modalImage = productDetails?.image || (details?.images as string);
+  const modalProductLink = productDetails?.product_link || details?.product_link;
+  const modalBrandLogo = productDetails?.brand_logo || details?.brand_logo;
+
   return (
     <>
       <TouchableOpacity
@@ -405,10 +420,10 @@ const ProductCard = ({
                 contentContainerStyle={[Css.w100, Css.g10, styles.modalScrollContent]}
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.productDeatilsLogoContainer}>
-                  {productDetails?.brand_logo && (
+                  {modalBrandLogo && (
                     <Image
                       source={{
-                        uri: productDetails?.brand_logo,
+                        uri: modalBrandLogo,
                       }}
                       style={[styles.logoStyle, Css.mt0]}
                       resizeMode="contain"
@@ -427,18 +442,18 @@ const ProductCard = ({
                   )}
                 </View>
                 <View style={styles.productHeroContainer}>
-                  {productDetails?.discount && (
+                  {modalDiscount && (
                     <View style={styles.productDiscountBadge}>
                       <Text style={styles.productDiscountText}>
-                        {productDetails?.discount}% Off
+                        {modalDiscount}% Off
                       </Text>
                     </View>
                   )}
                   <Image
                     source={
-                      productDetails?.image
+                      modalImage
                         ? {
-                            uri: productDetails?.image,
+                            uri: modalImage,
                           }
                         : Images.no_pictures
                     }
@@ -450,29 +465,25 @@ const ProductCard = ({
                   />
                 </View>
                 <View style={[styles.rowContainer, styles.namePriceContainer]}>
-                  {productDetails?.title && (
+                  {modalTitle && (
                     <Text style={styles.productDetailsProductNameText}>
-                      {productDetails?.title}
+                      {modalTitle}
                     </Text>
                   )}
-                  {productDetails.discounted_price || productDetails?.deal_price ? (
+                  {modalDiscountedPrice || modalDealPrice ? (
                     <View style={[styles.dealsPriceContainer]}>
                       <Text style={styles.detailsActualPrice}>
-                        {productDetails?.discounted_price}
+                        {modalDiscountedPrice}
                       </Text>
                       <Text style={styles.detailsOfferPrice}>
-                        {`${productDetails?.deal_price}`}
+                        {`${modalDealPrice}`}
                       </Text>
                     </View>
                   ) : null}
                 </View>
                 <View style={[styles.rowContainer, styles.descriptionContainer]}>
                   <Text style={styles.detailsDescLabel}>Description</Text>
-                  <Text style={styles.detailsDescValue}>
-                    {productDetails?.description?.trim()?.length
-                      ? productDetails?.description
-                      : 'Description coming soon.'}
-                  </Text>
+                  <Text style={styles.detailsDescValue}>{modalDescription}</Text>
                 </View>
                 <View style={[Css.w100, !productDetails?.isJson && Css.mt20]}>
                   <View style={[Css.fdr, Css.jcc, Css.aic, Css.g2]}>
@@ -528,7 +539,7 @@ const ProductCard = ({
                           <Image style={Css.icon32} source={Icons.active_save} />
                         </TouchableOpacity> */}
                     <TouchableOpacity
-                      onPress={() => copyToClipboard(productDetails?.product_link)}
+                      onPress={() => copyToClipboard(modalProductLink)}
                       style={Css.iconContainer32}>
                       <Image
                         style={Css.icon32}
@@ -569,7 +580,7 @@ const ProductCard = ({
               </ScrollView>
               <CustomButtonSolid
                 label="See Deal"
-                onPress={() => openLink(productDetails?.product_link)}
+                onPress={() => openLink(modalProductLink)}
                 containerStyle={[Css.w100, Css.mt5]}
               />
             </View>
