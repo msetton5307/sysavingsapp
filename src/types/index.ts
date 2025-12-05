@@ -119,6 +119,11 @@ export interface JSON_LISTING_TYPE {
   search?: string;
 }
 
+export interface MERGE_JSON_LISTING_TYPE {
+  page?: number;
+  pageSize?: number;
+}
+
 export interface DEAL_LIKE_TYPE {
   isLike: boolean;
   isDisLike: boolean;

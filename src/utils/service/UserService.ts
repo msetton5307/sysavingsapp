@@ -10,6 +10,7 @@ import {
   DEAL_LIKE_TYPE,
   DEAL_LISTING_TYPE,
   JSON_LISTING_TYPE,
+  MERGE_JSON_LISTING_TYPE,
   UPDATE_SETTINGS_TYPE,
   UPDATE_USER_INFORMATION,
 } from '@app/types';
@@ -219,6 +220,38 @@ const getAllJsonDealListing = (payload: JSON_LISTING_TYPE) => {
       };
     } catch (error: any) {
       console.log('getAllJsonDealListing_error', error);
+      return {
+        success: false,
+        message: error?.response
+          ? `${error.response?.data?.error?.errorType}`
+          : `${error?.message}`,
+      };
+    }
+  };
+};
+
+const getMergedJsonDeals = (payload: MERGE_JSON_LISTING_TYPE) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const result: AxiosResponse<any> = await instance.get(
+        listing.mergeJsonDeals,
+        {
+          params: {
+            page: payload.page || 1,
+            pageSize: payload.pageSize || 50,
+          },
+        },
+      );
+
+      const { status, data } = result;
+      const dealsData = data?.data?.data ?? data?.data ?? [];
+
+      return {
+        success: status === 200,
+        message: data?.message,
+        data: dealsData,
+      };
+    } catch (error: any) {
       return {
         success: false,
         message: error?.response
@@ -499,4 +532,5 @@ export {
   notification,
   getAllJsonDealListing,
   getAllDealListingMobile,
+  getMergedJsonDeals,
 };
