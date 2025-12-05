@@ -26,7 +26,6 @@ const Icons = {
   resetIcon: require('../assets/icons/resetIcon.png'),
   category: require('../assets/icons/category.png'),
   setting: require('../assets/icons/setting.png'),
-  PostDeals: require('../assets/icons/PostDeals.png'),
   Deals: require('../assets/icons/Deals.png'),
   Home: require('../assets/icons/Home.png'),
   HeaerIcon: require('../assets/icons/HeaerIcon.png'),
