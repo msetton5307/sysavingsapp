@@ -698,6 +698,7 @@ const styles = StyleSheet.create({
   },
   modalVisibleContainer: {
     // height: '80%',
+    height: '80%',
     maxHeight: '80%',
     width: '85%',
     backgroundColor: Colors.white,
