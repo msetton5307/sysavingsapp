@@ -218,8 +218,10 @@ const Setting = () => {
             ) : adminDeals.length === 0 ? (
               <Text style={styles.helperText}>No deals available.</Text>
             ) : (
-              adminDeals.map(item => (
-                <View style={styles.listItem} key={item?.id || item?.deal_id}>
+              adminDeals.map((item, index) => (
+                <View
+                  style={styles.listItem}
+                  key={`${item?.id || item?.deal_id || 'deal'}-${index}`}>
                   <View style={styles.listContent}>
                     <Text style={styles.listTitle}>
                       {item?.title || item?.name || 'Untitled Deal'}
