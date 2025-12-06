@@ -18,7 +18,10 @@ import {useAppDispatch, useAppSelector} from '@app/redux';
 import {logout} from '@app/utils/service/AuthService';
 import {showMessage} from '@app/utils/helper/Toast';
 import {updateSettings} from '@app/redux/slice/user.slice';
-import {updateUserSettings} from '@app/utils/service/UserService';
+import {
+  sendLatestDealNotification,
+  updateUserSettings,
+} from '@app/utils/service/UserService';
 import {debounce} from 'lodash';
 import {getAllDealListing} from '@app/utils/service/UserService';
 
@@ -38,6 +41,7 @@ const Setting = () => {
   });
   const [adminDeals, setAdminDeals] = useState<any[]>([]);
   const [adminLoading, setAdminLoading] = useState(false);
+  const [sendingNotification, setSendingNotification] = useState(false);
 
   const adminUsers = useMemo(
     () => [
@@ -116,6 +120,37 @@ const Setting = () => {
     }
   }, [isAdmin]);
 
+  const latestDeal = useMemo(() => adminDeals[0], [adminDeals]);
+
+  const handleSendTestNotification = async () => {
+    if (!latestDeal) {
+      showMessage('No deals available to send notifications.');
+      return;
+    }
+
+    setSendingNotification(true);
+    try {
+      const result = await dispatch(
+        sendLatestDealNotification({
+          dealId: latestDeal?.id || latestDeal?.deal_id,
+        }),
+      );
+
+      if (result?.success) {
+        showMessage(result?.message || 'Notification sent to all users.');
+      } else {
+        showMessage(
+          result?.message || 'Failed to send the test notification.',
+        );
+      }
+    } catch (error) {
+      console.error('Error sending test notification:', error);
+      showMessage('Unable to send the test notification.');
+    } finally {
+      setSendingNotification(false);
+    }
+  };
+
   return (
     <GeneralTemplate isSearch={false}>
       <Text style={styles.textStyle}>Settings</Text>
@@ -172,6 +207,13 @@ const Setting = () => {
           </View>
 
           <Text style={styles.sectionHeading}>Deals</Text>
+          <CustomButtonSolid
+            label={sendingNotification ? 'Sending...' : 'Send Test Notification'}
+            disabled={sendingNotification || !latestDeal}
+            onPress={handleSendTestNotification}
+            btnStyle={[styles.actionButton, Css.mh0]}
+            textStyle={styles.actionButtonText}
+          />
           <View style={styles.listContainer}>
             {adminLoading ? (
               <Text style={styles.helperText}>Loading deals...</Text>
@@ -381,6 +423,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gainsboro,
     backgroundColor: Colors.white,
+  },
+  actionButton: {
+    marginTop: moderateScale(10),
+  },
+  actionButtonText: {
+    fontFamily: Fonts.PoppinsSemiBold,
   },
   listItem: {
     padding: moderateScale(12),
