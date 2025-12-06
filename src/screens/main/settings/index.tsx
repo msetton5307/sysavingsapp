@@ -20,10 +20,10 @@ import {showMessage} from '@app/utils/helper/Toast';
 import {updateSettings} from '@app/redux/slice/user.slice';
 import {
   sendLatestDealNotification,
+  getMergedJsonDeals,
   updateUserSettings,
 } from '@app/utils/service/UserService';
 import {debounce} from 'lodash';
-import {getAllDealListing} from '@app/utils/service/UserService';
 
 type InfoSettingsKeys = 'notification' | 'preferences' | 'email_notification';
 
@@ -70,11 +70,9 @@ const Setting = () => {
     setAdminLoading(true);
     try {
       const result = await dispatch(
-        getAllDealListing({
-          length: 50,
+        getMergedJsonDeals({
           page: 1,
-          search: '',
-          isFeature: false,
+          pageSize: 50,
         }),
       );
 
