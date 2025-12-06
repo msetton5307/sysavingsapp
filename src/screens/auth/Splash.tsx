@@ -13,12 +13,14 @@ const Splash = () => {
       let token = Storage.getItem('token');
       console.log('token===>', token);
       let personalized_category = Storage.getItem('personalized_category');
+      const isAdmin = Storage.getItem('is_admin') === 'true';
 
       if (token && personalized_category === 'true') {
         dispatch(
           setUserStatus({
             isLoggedIn: true,
             personalized_category: true,
+            isAdmin,
           }),
         );
       } else if (token && personalized_category === 'false') {
@@ -26,6 +28,7 @@ const Splash = () => {
           setUserStatus({
             isLoggedIn: true,
             personalized_category: false,
+            isAdmin,
           }),
         );
       } else {
@@ -33,6 +36,7 @@ const Splash = () => {
           setUserStatus({
             isLoggedIn: false,
             personalized_category: false,
+            isAdmin: false,
           }),
         );
       }

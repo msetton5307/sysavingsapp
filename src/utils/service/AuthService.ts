@@ -66,10 +66,12 @@ const signIn = (payload: SIGN_IN_TYPE) => {
           'personalized_category',
           String(!isEmpty(data?.data?.personalized_category)),
         );
+        Storage.setItem('is_admin', 'false');
         dispatch(
           setUserStatus({
             isLoggedIn: true,
             personalized_category: !isEmpty(data?.data?.personalized_category),
+            isAdmin: false,
           }),
         );
         return {
@@ -303,10 +305,12 @@ const logout = () => {
         Storage.deleteItem("token");
         Storage.deleteItem("personalized_category");
         Storage.deleteItem("refresh-token");
+        Storage.deleteItem('is_admin');
         dispatch(
           setUserStatus({
             isLoggedIn: false,
             personalized_category: false,
+            isAdmin: false,
           }),
         );
       }
@@ -322,6 +326,7 @@ const logout = () => {
           setUserStatus({
             isLoggedIn: false,
             personalized_category: false,
+            isAdmin: false,
           }),
         );
       }
