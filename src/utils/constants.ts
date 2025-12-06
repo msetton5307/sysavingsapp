@@ -28,6 +28,9 @@ export const API = {
     update: 'api/user/settings/update',
     notification: '/api/user/notification/listing',
   },
+  notifications: {
+    sendLatestDeal: 'api/notification/send/latest-deal',
+  },
   category: {
     listing: 'api/category/listing',
     keywords: 'api/category/keyword/listing',

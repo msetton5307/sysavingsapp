@@ -15,7 +15,7 @@ import {
   UPDATE_USER_INFORMATION,
 } from '@app/types';
 
-const { user, settings, listing } = API;
+const { user, settings, listing, notifications } = API;
 
 const _header = {
   headers: {
@@ -519,6 +519,25 @@ const notification = (payload: null) => {
   };
 };
 
+const sendLatestDealNotification = (payload: {dealId: string}) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const result: AxiosResponse<any> = await instance.post(
+        notifications.sendLatestDeal,
+        payload,
+      );
+      const {status, data} = result;
+      return {
+        success: status === 200,
+        message: data?.message,
+        data: data?.data,
+      };
+    } catch (error) {
+      console.log('error -- ', error);
+    }
+  };
+};
+
 export {
   getUserDetails,
   updateUserInfoRequest,
@@ -537,6 +556,7 @@ export {
   addBank,
   getbankDetails,
   notification,
+  sendLatestDealNotification,
   getAllJsonDealListing,
   getAllDealListingMobile,
   getMergedJsonDeals,
