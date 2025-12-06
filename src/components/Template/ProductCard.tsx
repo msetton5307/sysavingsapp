@@ -415,171 +415,174 @@ const ProductCard = ({
                 onPress={() => setIsVisible(false)}>
                 <Image style={Css.icon20} source={Icons.cross} />
               </TouchableOpacity>
-              <View style={styles.modalContentWrapper}>
-                <ScrollView
-                  style={[Css.w100, styles.modalScroll]}
-                  contentContainerStyle={[
-                    Css.w100,
-                    Css.g10,
-                    styles.modalScrollContent,
-                  ]}
-                  showsVerticalScrollIndicator={false}>
-                  <View style={styles.productDeatilsLogoContainer}>
-                    {modalBrandLogo && (
-                      <Image
-                        source={{
-                          uri: modalBrandLogo,
-                        }}
-                        style={[styles.logoStyle, Css.mt0]}
-                        resizeMode="contain"
-                      />
-                    )}
-
-                    {details?.company_name && (
-                      <Text
-                        style={{
-                          fontFamily: Fonts.PoppinsMedium,
-                          color: Colors.black_olive,
-                          fontSize: 12,
-                        }}>
-                        {details?.company_name}
-                      </Text>
-                    )}
-                  </View>
-                  <View style={styles.productHeroContainer}>
-                    {modalDiscount && (
-                      <View style={styles.productDiscountBadge}>
-                        <Text style={styles.productDiscountText}>
-                          {modalDiscount}% Off
-                        </Text>
-                      </View>
-                    )}
+              <ScrollView
+                style={[Css.w100, styles.modalScroll]}
+                contentContainerStyle={[Css.w100, Css.g10, styles.modalScrollContent]}
+                showsVerticalScrollIndicator={false}>
+                <View style={styles.productDeatilsLogoContainer}>
+                  {modalBrandLogo && (
                     <Image
-                      source={
-                        modalImage
-                          ? {
-                              uri: modalImage,
-                            }
-                          : Images.no_pictures
-                      }
-                      style={[styles.productDetailsImg]}
+                      source={{
+                        uri: modalBrandLogo,
+                      }}
+                      style={[styles.logoStyle, Css.mt0]}
                       resizeMode="contain"
-                      tintColor={
-                        productDetails?.image ? undefined : Colors.gray_1
-                      }
                     />
-                  </View>
-                  <View style={[styles.rowContainer, styles.namePriceContainer]}>
-                    {modalTitle && (
-                      <Text style={styles.productDetailsProductNameText}>
-                        {modalTitle}
-                      </Text>
-                    )}
-                    {modalDiscountedPrice || modalDealPrice ? (
-                      <View style={[styles.dealsPriceContainer]}>
-                        <Text style={styles.detailsActualPrice}>
-                          {modalDiscountedPrice}
-                        </Text>
-                        <Text style={styles.detailsOfferPrice}>
-                          {`${modalDealPrice}`}
-                        </Text>
-                      </View>
-                    ) : null}
-                  </View>
-                  <View style={[styles.rowContainer, styles.descriptionContainer]}>
-                    <Text style={styles.detailsDescLabel}>Description</Text>
-                    <Text style={styles.detailsDescValue}>{modalDescription}</Text>
-                  </View>
-                  <View style={[Css.w100, !productDetails?.isJson && Css.mt10]}>
-                    <View style={[Css.fdr, Css.jcc, Css.aic, Css.g2]}>
-                      {!productDetails.isJson && (
-                        <>
-                          <TouchableOpacity
-                            onPress={() =>
-                              handleLikeDislike(
-                                productDetails._id,
-                                'like',
-                                productDetails.isLike,
-                              )
-                            }
-                            style={Css.iconContainer32}>
-                            <Image
-                              style={Css.icon32}
-                              source={
-                                productDetails?.isLike
-                                  ? Icons.active_like
-                                  : Icons.inactive_like
-                              }
-                            />
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() =>
-                              handleLikeDislike(
-                                productDetails?._id,
-                                'dislike',
-                                productDetails?.isDislike,
-                              )
-                            }
-                            style={Css.iconContainer32}>
-                            <Image
-                              style={Css.icon32}
-                              source={
-                                productDetails?.isDislike
-                                  ? Icons.active_dislike
-                                  : Icons.inactive_dislike
-                              }
-                            />
-                          </TouchableOpacity>
-                        </>
-                      )}
+                  )}
 
-                      <TouchableOpacity
-                        onPress={() => {
-                          share(productDetails);
-                        }}
-                        style={Css.iconContainer32}>
-                        <Image style={Css.icon32} source={Icons.active_share} />
-                      </TouchableOpacity>
-                      {/* <TouchableOpacity style={Css.iconContainer32}>
-                          <Image style={Css.icon32} source={Icons.active_save} />
-                        </TouchableOpacity> */}
-                      <TouchableOpacity
-                        onPress={() => copyToClipboard(modalProductLink)}
-                        style={Css.iconContainer32}>
-                        <Image
-                          style={Css.icon32}
-                          source={Icons.inactive_link} // active_link
-                        />
-                      </TouchableOpacity>
-                      {!jsonData && (
+                  {details?.company_name && (
+                    <Text
+                      style={{
+                        fontFamily: Fonts.PoppinsMedium,
+                        color: Colors.black_olive,
+                        fontSize: 12,
+                      }}>
+                      {details?.company_name}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.productHeroContainer}>
+                  {modalDiscount && (
+                    <View style={styles.productDiscountBadge}>
+                      <Text style={styles.productDiscountText}>
+                        {modalDiscount}% Off
+                      </Text>
+                    </View>
+                  )}
+                  <Image
+                    source={
+                      modalImage
+                        ? {
+                            uri: modalImage,
+                          }
+                        : Images.no_pictures
+                    }
+                    style={[styles.productDetailsImg]}
+                    resizeMode="contain"
+                    tintColor={
+                      productDetails?.image ? undefined : Colors.gray_1
+                    }
+                  />
+                </View>
+                <View style={[styles.rowContainer, styles.namePriceContainer]}>
+                  {modalTitle && (
+                    <Text style={styles.productDetailsProductNameText}>
+                      {modalTitle}
+                    </Text>
+                  )}
+                  {modalDiscountedPrice || modalDealPrice ? (
+                    <View style={[styles.dealsPriceContainer]}>
+                      <Text style={styles.detailsActualPrice}>
+                        {modalDiscountedPrice}
+                      </Text>
+                      <Text style={styles.detailsOfferPrice}>
+                        {`${modalDealPrice}`}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+                <View style={[styles.rowContainer, styles.descriptionContainer]}>
+                  <Text style={styles.detailsDescLabel}>Description</Text>
+                  <Text style={styles.detailsDescValue}>{modalDescription}</Text>
+                </View>
+                <View style={[Css.w100, !productDetails?.isJson && Css.mt20]}>
+                  <View style={[Css.fdr, Css.jcc, Css.aic, Css.g2]}>
+                    {!productDetails.isJson && (
+                      <>
                         <TouchableOpacity
-                          onPress={() => {
-                            handleFavourite(
-                              productDetails?._id,
-                              productDetails?.isFavourite,
-                            );
-                            onUnFavorite();
-                          }}
+                          onPress={() =>
+                            handleLikeDislike(
+                              productDetails._id,
+                              'like',
+                              productDetails.isLike,
+                            )
+                          }
                           style={Css.iconContainer32}>
                           <Image
                             style={Css.icon32}
                             source={
-                              productDetails?.isFavourite
-                                ? Icons.active_favourite
-                                : Icons.inactive_favourite
+                              productDetails?.isLike
+                                ? Icons.active_like
+                                : Icons.inactive_like
                             }
                           />
                         </TouchableOpacity>
-                      )}
-                    </View>
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleLikeDislike(
+                              productDetails?._id,
+                              'dislike',
+                              productDetails?.isDislike,
+                            )
+                          }
+                          style={Css.iconContainer32}>
+                          <Image
+                            style={Css.icon32}
+                            source={
+                              productDetails?.isDislike
+                                ? Icons.active_dislike
+                                : Icons.inactive_dislike
+                            }
+                          />
+                        </TouchableOpacity>
+                      </>
+                    )}
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        share(productDetails);
+                      }}
+                      style={Css.iconContainer32}>
+                      <Image style={Css.icon32} source={Icons.active_share} />
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity style={Css.iconContainer32}>
+                          <Image style={Css.icon32} source={Icons.active_save} />
+                        </TouchableOpacity> */}
+                    <TouchableOpacity
+                      onPress={() => copyToClipboard(modalProductLink)}
+                      style={Css.iconContainer32}>
+                      <Image
+                        style={Css.icon32}
+                        source={Icons.inactive_link} // active_link
+                      />
+                    </TouchableOpacity>
+                    {!jsonData && (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleFavourite(
+                            productDetails?._id,
+                            productDetails?.isFavourite,
+                          );
+                          onUnFavorite();
+                        }}
+                        style={Css.iconContainer32}>
+                        <Image
+                          style={Css.icon32}
+                          source={
+                            productDetails?.isFavourite
+                              ? Icons.active_favourite
+                              : Icons.inactive_favourite
+                          }
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
-                </ScrollView>
-                <CustomButtonSolid
-                  label="See Deal"
-                  onPress={() => openLink(modalProductLink)}
-                  containerStyle={[Css.w100, Css.mt5]}
-                />
-              </View>
+                  <View style={Css.mb20} />
+                  {/* {!productDetails?.isJson && (
+                        <CustomButtonOutline
+                          label="Expired"
+                          onPress={() => {}}
+                          disabled
+                          containerStyle={Css.w100}
+                        />
+                      )} */}
+                </View>
+              </ScrollView>
+              <CustomButtonSolid
+                label="See Deal"
+                onPress={() => openLink(modalProductLink)}
+                containerStyle={[Css.w100, Css.mt5]}
+              />
             </View>
           </SafeAreaView>
         </View>
@@ -646,10 +649,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   productDetailsImg: {
-    height: moderateScale(130),
-    width: moderateScale(130),
+    height: moderateScale(150),
+    width: moderateScale(150),
     alignSelf: 'center',
-    marginTop: moderateScale(8),
+    marginTop: moderateScale(10),
   },
   logoStyle: {
     height: moderateScale(20),
@@ -694,12 +697,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalVisibleContainer: {
-    maxHeight: '90%',
-    width: '90%',
+    // height: '80%',
+    height: '80%',
+    maxHeight: '80%',
+    width: '85%',
     backgroundColor: Colors.white,
     borderRadius: moderateScale(15),
     overflow: 'hidden',
-    padding: moderateScale(12),
+    padding: moderateScale(15),
   },
   crossiconContainer: {
     height: moderateScale(40),
@@ -717,15 +722,9 @@ const styles = StyleSheet.create({
   modalScroll: {
     flex: 1,
   },
-  modalContentWrapper: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'space-between',
-    gap: moderateScale(12),
-  },
   rowContainer: {
     width: '100%',
-    padding: moderateScale(12),
+    padding: moderateScale(15),
     borderRadius: moderateScale(15),
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -743,7 +742,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: Colors.white,
     borderRadius: moderateScale(15),
-    padding: moderateScale(16),
+    padding: moderateScale(20),
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
