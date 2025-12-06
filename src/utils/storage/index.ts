@@ -5,7 +5,15 @@ const storage = new MMKV({
   encryptionKey: 'encryption-key',
 });
 
-type Keys = 'token' | 'refresh-token' | 'personalized_category' | "rememberedEmail" | "rememberedPassword" | "rememberMe" | "deviceToken"; // add more key
+type Keys =
+  | 'token'
+  | 'refresh-token'
+  | 'personalized_category'
+  | 'rememberedEmail'
+  | 'rememberedPassword'
+  | 'rememberMe'
+  | 'deviceToken'
+  | 'is_admin'; // add more key
 
 const Storage = {
   setItem: (key: Keys, value: string) => {

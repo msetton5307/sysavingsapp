@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   Alert,
   Image,
@@ -20,12 +20,14 @@ import {showMessage} from '@app/utils/helper/Toast';
 import {updateSettings} from '@app/redux/slice/user.slice';
 import {updateUserSettings} from '@app/utils/service/UserService';
 import {debounce} from 'lodash';
+import {getAllDealListing} from '@app/utils/service/UserService';
 
 type InfoSettingsKeys = 'notification' | 'preferences' | 'email_notification';
 
 const Setting = () => {
   const dispatch = useAppDispatch();
   const _settings = useAppSelector(state => state.user.settings);
+  const {isAdmin} = useAppSelector(state => state.auth);
 
   const [infoSettings, setInfoSettings] = useState<
     Record<InfoSettingsKeys, boolean>
@@ -34,6 +36,18 @@ const Setting = () => {
     preferences: _settings.preferences,
     email_notification: _settings.email_notification,
   });
+  const [adminDeals, setAdminDeals] = useState<any[]>([]);
+  const [adminLoading, setAdminLoading] = useState(false);
+
+  const adminUsers = useMemo(
+    () => [
+      {id: '1', name: 'Alex Johnson', email: 'alex.johnson@example.com'},
+      {id: '2', name: 'Priya Patel', email: 'priya.patel@example.com'},
+      {id: '3', name: 'Diego Martínez', email: 'diego.martinez@example.com'},
+      {id: '4', name: 'Chen Wei', email: 'chen.wei@example.com'},
+    ],
+    [],
+  );
 
   const updateInfo = (key: InfoSettingsKeys, value: boolean) => {
     setInfoSettings(prev => ({
@@ -47,6 +61,30 @@ const Setting = () => {
       {label: 'Terms & Conditions', navigateTo: 'TermsCondition'},
       {label: 'Privacy Policy', navigateTo: 'PrivacyPolicy'},
     ];
+
+  const loadAdminDeals = async () => {
+    setAdminLoading(true);
+    try {
+      const result = await dispatch(
+        getAllDealListing({
+          length: 50,
+          page: 1,
+          search: '',
+          isFeature: false,
+        }),
+      );
+
+      if (result?.success && Array.isArray(result?.data)) {
+        setAdminDeals(result.data);
+      } else {
+        setAdminDeals([]);
+      }
+    } catch (error) {
+      console.error('Error loading admin deals:', error);
+    } finally {
+      setAdminLoading(false);
+    }
+  };
 
   async function handleLogout() {
     const result = await dispatch(logout());
@@ -71,6 +109,12 @@ const Setting = () => {
   useEffect(() => {
     debouncedSubmit(infoSettings);
   }, [infoSettings]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadAdminDeals();
+    }
+  }, [isAdmin]);
 
   return (
     <GeneralTemplate isSearch={false}>
@@ -113,6 +157,62 @@ const Setting = () => {
           );
         })}
       </View>
+      {isAdmin && (
+        <View style={styles.adminContainer}>
+          <Text style={styles.adminTitle}>Admin Panel</Text>
+          <View style={styles.statRow}>
+            <View style={styles.statCard}>
+              <Text style={styles.statLabel}>Total Deals</Text>
+              <Text style={styles.statValue}>{adminDeals.length}</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Text style={styles.statLabel}>Total Users</Text>
+              <Text style={styles.statValue}>{adminUsers.length}</Text>
+            </View>
+          </View>
+
+          <Text style={styles.sectionHeading}>Deals</Text>
+          <View style={styles.listContainer}>
+            {adminLoading ? (
+              <Text style={styles.helperText}>Loading deals...</Text>
+            ) : adminDeals.length === 0 ? (
+              <Text style={styles.helperText}>No deals available.</Text>
+            ) : (
+              adminDeals.map(item => (
+                <View style={styles.listItem} key={item?.id || item?.deal_id}>
+                  <View style={styles.listContent}>
+                    <Text style={styles.listTitle}>
+                      {item?.title || item?.name || 'Untitled Deal'}
+                    </Text>
+                    {item?.description ? (
+                      <Text style={styles.listSubtitle} numberOfLines={2}>
+                        {item.description}
+                      </Text>
+                    ) : null}
+                  </View>
+                  <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => showMessage('Edit flow coming soon')}>
+                    <Text style={styles.editButtonText}>Edit</Text>
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
+          </View>
+
+          <Text style={styles.sectionHeading}>Users</Text>
+          <View style={styles.listContainer}>
+            {adminUsers.map(user => (
+              <View style={styles.listItem} key={user.id}>
+                <View style={styles.listContent}>
+                  <Text style={styles.listTitle}>{user.name}</Text>
+                  <Text style={styles.listSubtitle}>{user.email}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+      )}
       <CustomButtonSolid
         label="Logout"
         onPress={() => {
@@ -227,5 +327,98 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: Colors.gainsboro,
+  },
+  adminContainer: {
+    marginTop: moderateScale(20),
+    backgroundColor: Colors.white,
+    padding: moderateScale(16),
+    borderRadius: moderateScale(10),
+    gap: moderateScale(12),
+    shadowOpacity: 1,
+    shadowColor: '#4514A517',
+    shadowOffset: {
+      height: 1,
+      width: 1,
+    },
+    elevation: 5,
+  },
+  adminTitle: {
+    fontFamily: Fonts.PoppinsSemiBold,
+    fontSize: moderateScale(16),
+    color: Colors.black,
+  },
+  statRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: moderateScale(10),
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: Colors.Floral_White,
+    padding: moderateScale(12),
+    borderRadius: moderateScale(10),
+    borderWidth: 1,
+    borderColor: Colors.gainsboro,
+  },
+  statLabel: {
+    fontFamily: Fonts.PoppinsRegular,
+    fontSize: moderateScale(12),
+    color: Colors.Old_Silver,
+  },
+  statValue: {
+    fontFamily: Fonts.PoppinsSemiBold,
+    fontSize: moderateScale(20),
+    color: Colors.Aztec_Gold,
+  },
+  sectionHeading: {
+    fontFamily: Fonts.PoppinsSemiBold,
+    fontSize: moderateScale(14),
+    color: Colors.black,
+    marginTop: moderateScale(6),
+  },
+  listContainer: {
+    borderRadius: moderateScale(10),
+    borderWidth: 1,
+    borderColor: Colors.gainsboro,
+    backgroundColor: Colors.white,
+  },
+  listItem: {
+    padding: moderateScale(12),
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.gainsboro,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: moderateScale(10),
+  },
+  listContent: {
+    flex: 1,
+    gap: moderateScale(4),
+  },
+  listTitle: {
+    fontFamily: Fonts.PoppinsSemiBold,
+    color: Colors.black,
+    fontSize: moderateScale(13),
+  },
+  listSubtitle: {
+    fontFamily: Fonts.PoppinsRegular,
+    color: Colors.Old_Silver,
+    fontSize: moderateScale(12),
+  },
+  helperText: {
+    padding: moderateScale(12),
+    fontFamily: Fonts.PoppinsRegular,
+    color: Colors.Old_Silver,
+  },
+  editButton: {
+    paddingVertical: moderateScale(6),
+    paddingHorizontal: moderateScale(14),
+    backgroundColor: Colors.Aztec_Gold,
+    borderRadius: moderateScale(8),
+  },
+  editButtonText: {
+    color: Colors.white,
+    fontFamily: Fonts.PoppinsSemiBold,
+    fontSize: moderateScale(12),
   },
 });
