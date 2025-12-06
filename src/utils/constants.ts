@@ -29,7 +29,7 @@ export const API = {
     notification: '/api/user/notification/listing',
   },
   notifications: {
-    sendLatestDeal: 'api/notification/send/latest-deal',
+    sendLatestDeal: 'api/notification/latest-deal',
   },
   category: {
     listing: 'api/category/listing',
