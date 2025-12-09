@@ -24,6 +24,8 @@ const _header = {
   },
 };
 
+const dealsBaseConfig = { baseURL: DEALS_BASE_URL };
+
 const getUserDetails = () => {
   return async (dispatch: Dispatch) => {
     try {
@@ -156,6 +158,7 @@ const getAllDealListing = (payload: DEAL_LISTING_TYPE) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.dealListing,
         payload,
+        dealsBaseConfig,
       );
 
       const { status, data } = result;
@@ -181,6 +184,7 @@ const getAllDealListingMobile = (payload: DEAL_LISTING_TYPE) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.newDealListing,
         payload,
+        dealsBaseConfig,
       );
 
       const { status, data } = result;
@@ -207,6 +211,7 @@ const getAllJsonDealListing = (payload: JSON_LISTING_TYPE) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.jsonListing,
         payload,
+        dealsBaseConfig,
       );
 
       const { status, data } = result;
@@ -275,6 +280,7 @@ const getDealDetails = (payload: { id: string }) => {
     try {
       const result: AxiosResponse<any> = await instance.get(
         `${listing.dealDetails}${payload.id}`,
+        dealsBaseConfig,
       );
       const { status, data } = result;
 
@@ -300,6 +306,7 @@ const getDealFavoriteList = (payload: DEAL_LISTING_TYPE) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.dealFavoriteList,
         payload,
+        dealsBaseConfig,
       );
       const { status, data } = result;
       const allDeals = data.data.docs.flatMap((item: any) => item.deals || []);
@@ -325,6 +332,7 @@ const applyDealLiked = (payload: DEAL_LIKE_TYPE) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.dealLike,
         payload,
+        dealsBaseConfig,
       );
 
       const { status, data } = result;
@@ -351,6 +359,7 @@ const applyDealFavorite = (payload: { dealId: string }) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.dealFavorite,
         payload,
+        dealsBaseConfig,
       );
 
       const { status, data } = result;
@@ -379,7 +388,7 @@ const addNewDeal = (payload: FormData) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.addDeal,
         payload,
-        _header,
+        { ..._header, ...dealsBaseConfig },
       );
 
       const { status, data } = result;
@@ -405,6 +414,7 @@ const getPostedDeal = (payload: DEAL_LISTING_TYPE) => {
       const result: AxiosResponse<any> = await instance.post(
         listing.postedDeals,
         payload,
+        dealsBaseConfig,
       );
 
       const { status, data } = result;
@@ -432,7 +442,7 @@ const updateDeal = (payload: FormData) => {
       const result: AxiosResponse<any> = await instance.put(
         listing.updateDeal,
         payload,
-        _header,
+        { ..._header, ...dealsBaseConfig },
       );
 
       const { status, data } = result;
@@ -458,6 +468,7 @@ const deleteDeal = (id: string) => {
     try {
       const result: AxiosResponse<any> = await instance.delete(
         `${listing.deleteDeal}/${id}`,
+        dealsBaseConfig,
       );
       const { status, data } = result;
       return {
@@ -473,7 +484,10 @@ const deleteDeal = (id: string) => {
 const addBank = (payload: null) => {
   return async (dispatch: Dispatch) => {
     try {
-      const result: AxiosResponse<any> = await instance.get(listing.addBank);
+      const result: AxiosResponse<any> = await instance.get(
+        listing.addBank,
+        dealsBaseConfig,
+      );
       const { status, data } = result;
       return {
         success: status === 200,
@@ -489,7 +503,10 @@ const addBank = (payload: null) => {
 const getbankDetails = (payload: null) => {
   return async (dispatch: Dispatch) => {
     try {
-      const result: AxiosResponse<any> = await instance.get(listing.banklist);
+      const result: AxiosResponse<any> = await instance.get(
+        listing.banklist,
+        dealsBaseConfig,
+      );
       const { status, data } = result;
       return {
         success: status === 200,
