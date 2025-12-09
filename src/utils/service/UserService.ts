@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { AxiosResponse } from 'axios';
 import { instance } from '../server/instance';
-import { API } from '../constants';
+import { API, DEALS_BASE_URL } from '../constants';
 import { createFrom } from '../helper/Validation';
 import { setUserInfo } from '../../redux/slice/user.slice';
 import {
@@ -236,6 +236,7 @@ const getMergedJsonDeals = (payload: MERGE_JSON_LISTING_TYPE) => {
       const result: AxiosResponse<any> = await instance.get(
         listing.mergeJsonDeals,
         {
+          baseURL: DEALS_BASE_URL,
           params: {
             page: payload.page || 1,
             pageSize: payload.pageSize || 50,

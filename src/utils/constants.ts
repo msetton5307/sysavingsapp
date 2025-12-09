@@ -1,5 +1,7 @@
 import { BASE_URL } from '@env';
 
+export const DEALS_BASE_URL = 'https://api.sysavings.com';
+
 export const API = {
   auth: {
     login: 'api/user/login',
