@@ -1,6 +1,10 @@
 import { BASE_URL } from '@env';
 
-export const DEALS_BASE_URL = 'https://api.sysavings.com';
+export const DEFAULT_API_BASE_URL = 'https://sysaving.dedicateddevelopers.us';
+export const DEFAULT_DEALS_BASE_URL = 'https://api.sysavings.com';
+
+export const API_BASE_URL = BASE_URL || DEFAULT_API_BASE_URL;
+export const DEALS_BASE_URL = DEFAULT_DEALS_BASE_URL;
 
 export const API = {
   auth: {
@@ -56,8 +60,8 @@ export const API = {
 };
 
 export const IMAGES_BUCKET_URL = {
-  profile: `${BASE_URL}/uploads/users/`,
-  category: `${BASE_URL}/uploads/category`,
-  brand: `${BASE_URL}/uploads/`,
-  deals: `${BASE_URL}/uploads/DealImages/`,
+  profile: `${API_BASE_URL}/uploads/users/`,
+  category: `${API_BASE_URL}/uploads/category`,
+  brand: `${API_BASE_URL}/uploads/`,
+  deals: `${API_BASE_URL}/uploads/DealImages/`,
 };

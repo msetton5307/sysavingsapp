@@ -2,12 +2,12 @@ import { BASE_URL } from '@env';
 import axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
 import Storage from '../storage';
-import { API } from '../constants';
+import { API, API_BASE_URL } from '../constants';
 import { showMessage } from '../helper/Toast';
 import { store } from '@app/redux';
 import { logout } from '../service/AuthService';
 
-const baseURL = BASE_URL || 'http://192.168.5.237:1844';
+const baseURL = API_BASE_URL;
 
 export const instance = axios.create({
   baseURL,
