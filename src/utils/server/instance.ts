@@ -1,22 +1,20 @@
-import { BASE_URL } from '@env';
 import axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
 import Storage from '../storage';
-import { API } from '../constants';
+import { API, API_BASE_URL } from '../constants';
 import { showMessage } from '../helper/Toast';
 import { store } from '@app/redux';
 import { logout } from '../service/AuthService';
 
-const baseURL = BASE_URL || 'http://192.168.5.237:1844';
+const baseURL = API_BASE_URL;
 
 export const instance = axios.create({
-  baseURL: BASE_URL,
-  // baseURL: baseURL,
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-console.log('BASE_URL', BASE_URL);
+console.log('BASE_URL', baseURL);
 let lastLogoutTime = 0;
 const LOGOUT_COOLDOWN = 5 * 60 * 1000; // 5 minutes
 
