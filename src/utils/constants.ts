@@ -18,7 +18,7 @@ export const API = {
     logout: 'api/user/logout',
     updateCategory: 'api/user/personalized/category/update',
     refreshToken: 'api/user/refreshtoken',
-    socialSignIn: '/api/user/social/signin',
+    socialSignIn: 'api/user/social/signin',
   },
   user: {
     profile: 'api/user/profile',
@@ -32,7 +32,7 @@ export const API = {
   },
   settings: {
     update: 'api/user/settings/update',
-    notification: '/api/user/notification/listing',
+    notification: 'api/user/notification/listing',
   },
   notifications: {
     sendLatestDeal: 'api/notification/latest-deal',
