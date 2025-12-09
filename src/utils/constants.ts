@@ -1,8 +1,5 @@
 import { BASE_URL } from '@env';
 
-export const API_BASE_URL =
-  BASE_URL || 'https://api.sysaving.dedicateddevelopers.us';
-
 export const API = {
   auth: {
     login: 'api/user/login',
@@ -57,8 +54,8 @@ export const API = {
 };
 
 export const IMAGES_BUCKET_URL = {
-  profile: `${API_BASE_URL}/uploads/users/`,
-  category: `${API_BASE_URL}/uploads/category`,
-  brand: `${API_BASE_URL}/uploads/`,
-  deals: `${API_BASE_URL}/uploads/DealImages/`,
+  profile: `${BASE_URL}/uploads/users/`,
+  category: `${BASE_URL}/uploads/category`,
+  brand: `${BASE_URL}/uploads/`,
+  deals: `${BASE_URL}/uploads/DealImages/`,
 };
