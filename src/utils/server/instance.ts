@@ -10,8 +10,7 @@ import { logout } from '../service/AuthService';
 const baseURL = BASE_URL || 'http://192.168.5.237:1844';
 
 export const instance = axios.create({
-  baseURL: BASE_URL,
-  // baseURL: baseURL,
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
