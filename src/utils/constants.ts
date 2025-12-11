@@ -1,6 +1,6 @@
 import { BASE_URL } from '@env';
 
-export const DEFAULT_API_BASE_URL = 'https://sysaving.dedicateddevelopers.us';
+export const DEFAULT_API_BASE_URL = 'http://127.0.0.1:1844';
 export const DEFAULT_DEALS_BASE_URL = 'https://api.sysavings.com';
 
 export const API_BASE_URL = BASE_URL || DEFAULT_API_BASE_URL;
