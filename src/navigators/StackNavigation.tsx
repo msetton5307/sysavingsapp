@@ -19,7 +19,6 @@ import TermsCondition from '../screens/main/settings/TermsCondition';
 import PrivacyPolicy from '../screens/main/settings/PrivacyPolicy';
 import EditProfile from '../screens/main/profile/EditProfile';
 import PayoutHistory from '../screens/main/profile/PayoutHistory';
-import Notification from '../screens/main/profile/Notification';
 import ChangePassword from '../screens/main/profile/ChangePassword';
 import FavouriteDeals from '../screens/main/profile/FavouriteDeals';
 import ContactUs from '../screens/main/profile/ContactUs';
@@ -56,7 +55,6 @@ export default function StackNavigation() {
     PrivacyPolicy: PrivacyPolicy,
     EditProfile: EditProfile,
     PayoutHistory: PayoutHistory,
-    Notification: Notification,
     ChangePassword: ChangePassword,
     FavouriteDeals: FavouriteDeals,
     ContactUs: ContactUs,

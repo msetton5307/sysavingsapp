@@ -1,16 +1,17 @@
+import {NavigatorScreenParams} from '@react-navigation/native';
+
 export type RootStackParamList = {
   Splash: undefined;
   Login: undefined;
   Signup: undefined;
   CategoryKeyword: undefined;
-  TabNav: undefined;
+  TabNav: NavigatorScreenParams<RootTabParamList> | undefined;
   Profile: undefined;
   EditProfile: undefined;
   Payout: undefined;
   PayoutHistory: undefined;
   PrivacyPolicy: undefined;
   TermsCondition: undefined;
-  Notification: undefined;
   ChangePassword: undefined;
   FavouriteDeals: undefined;
   ContactUs: undefined;
@@ -21,6 +22,7 @@ export type RootTabParamList = {
   Home: undefined;
   Categories: undefined;
   Deals: undefined;
+  Notification: undefined;
   Setting: undefined;
 };
 
