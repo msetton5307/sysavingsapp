@@ -93,7 +93,11 @@ const Header = (props: CustomHeaderProps) => {
       {isNotificationVisible && (
         <TouchableOpacity
           style={Css.iconContainer40}
-          onPress={() => navigate('Notification')}>
+          onPress={() =>
+            navigate('TabNav', {
+              screen: 'Notification',
+            })
+          }>
           <Image
             source={Icons.Notification}
             style={Css.icon40}

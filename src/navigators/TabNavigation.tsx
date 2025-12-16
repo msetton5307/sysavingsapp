@@ -5,8 +5,9 @@ import {moderateScale} from '../utils/orientation';
 import {Colors, Fonts} from '../themes';
 import {TabNavigationScreen} from './TabNavigationScreen';
 import useKeyboardVisible from '../utils/hooks/useKeyboardVisible';
+import {RootTabParamList} from '../types';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const TabNav = () => {
   const keyboardVisible = useKeyboardVisible();
